@@ -2,27 +2,58 @@ import './App.css';
 import React, {
   Fragment
 } from 'react';
-import Section from "./components/section.js";
-import Header from "./components/header.js";
-import Footer from "./components/footer.js";
-
+import ListItems from './components/ListItems.js';
 class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      item: [],
+      currentItem: {
+        text: "",
+        key: "",
+      }
+    } 
+  };
 
+  handleInput = (e) => {
+    this.setState({
+      currentItem: {
+        text: e.target.value,
+        key: Date.now(),
+      }
+    })
+  };
+
+  addItem = (e) => {
+    e.preventDefault();
+    const newItem = this.state.currentItem;
+    console.log(newItem);
+    if(newItem.text !== "") {
+      const newItems = [...this.state.items, newItem];
+      this.setState({
+        items: newItems,
+        currentItem: {
+          text: "",
+          key: ""
+        }
+      })
+    }
+  };
 
   render() {
     return ( 
-      <div style={{height:"100wh"}}>
-        <Header/>
-        <Section/>
-        <Footer/>
-        {/* <h1>Hello React</h1>
-        <h2>Name: {this.state.name}</h2>
-        <h3>Count: {this.state.count}</h3>
-        <button title="Click" onClick={this.setCount}>Click</button> */}
-
+      <div className="App">
+        <header>
+          <h1>Notes list:</h1>
+          <form id="notes-form" onSubmit={this.addItem}>
+            <input type="text" placeholder="Add a note" value={this.state.currentItem.text} onChange={this.handleInput}/>
+            <button type="submit">Add</button>
+          </form>
+        </header>
+        <ListItems items={this.state.items}/>
       </div>
     )
-  }
-}
+  };
+};
 
 export default App;
