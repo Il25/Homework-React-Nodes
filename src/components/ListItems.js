@@ -1,14 +1,12 @@
 import React from "react";
 import "./ListItems.css";
 
-const ListItems = (props) => {
+const ListItems = ({item, deleteItem, setUpdate}) => {
     return(
-        <div className="list" key={props.i.key}>
+        <div className="list" key={item.key}>
             <p>
-                {props.i}
-                <input type="text" id={props.i} value={props.i.text} onChange={(e) => {
-             props.setUpdate(e.target.value, props.i.key)}}/>
-                <span onClick={() => {props.deleteItem(props.i.key)}}>
+                <input className='input' value={item.text} id={item.text} type="text" onChange={(e) => {setUpdate(e.target.value, item.id)}}/>
+                <span onClick={() => {deleteItem(item.id)}}>
                     Delete
                 </span>
             </p>  

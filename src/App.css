@@ -4,9 +4,10 @@ body {
 
 .App {
   background-color: #3f3160;
-  min-height: 500px;
+  height: 600px;
   width: 400px;
   margin: 40px auto;
+  overflow-y: auto;
 }
 
 h1 {
