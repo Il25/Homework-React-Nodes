@@ -7,19 +7,18 @@ class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      item: [],
+      items: [],
       currentItem: {
         text: "",
-        key: "",
       }
     } 
   };
 
   handleInput = (e) => {
+    console.log(e.target.value);
     this.setState({
       currentItem: {
         text: e.target.value,
-        key: Date.now(),
       }
     })
   };
@@ -27,18 +26,29 @@ class App extends React.Component {
   addItem = (e) => {
     e.preventDefault();
     const newItem = this.state.currentItem;
-    console.log(newItem);
-    if(newItem.text !== "") {
-      const newItems = [...this.state.items, newItem];
-      this.setState({
-        items: newItems,
-        currentItem: {
-          text: "",
-          key: ""
-        }
-      })
-    }
+    this.setState({
+      items: [...this.state.items, newItem]
+    })  
   };
+
+  deleteItem = (key) => {
+    const filteredItems = this.state.items.filter(item => item.key !== key);
+    this.setState({
+      items: filteredItems
+    })
+  }
+
+  setUpdate = (text, key) => {
+    const items = this.state.items;
+    items.map(item => {      
+      if(item.key === key) {
+        item.text = text;
+      }
+    })
+    this.setState({
+      items: items,
+    })
+  }  
 
   render() {
     return ( 
@@ -47,10 +57,12 @@ class App extends React.Component {
           <h1>Notes list:</h1>
           <form id="notes-form" onSubmit={this.addItem}>
             <input type="text" placeholder="Add a note" value={this.state.currentItem.text} onChange={this.handleInput}/>
-            <button type="submit">Add</button>
+            <button>Add</button>
           </form>
         </header>
-        <ListItems items={this.state.items}/>
+         {this.state.items.map((i) => {
+           return <ListItems i={i.text} deleteItem={this.deleteItem} setUpdate={this.setUpdate}/>
+         })}
       </div>
     )
   };

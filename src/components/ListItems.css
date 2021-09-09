@@ -9,4 +9,13 @@
 
 .list p {
     padding: 10px;
+    position: relative;
+}
+
+.list p span {
+    position: absolute;
+    right: 10px;
+    font-size: 12px;
+    padding: 5px;
+    cursor: pointer;
 }
